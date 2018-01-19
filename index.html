@@ -2,6 +2,95 @@
 <html>
   <head></head>
   <body>
-    <h1>Hello!</h1>
+    <h1>Stacja pogodowa</h1>
+    <canvas id="ctx" width=300 height=300 />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+    <script>
+const FETCH_INTERVAL = 10 * 1000;
+const ctx = document.querySelector('#ctx')
+const colors = {
+  red: 'rgb(255, 99, 132)',
+  blue: 'rgb(54, 162, 235)',
+};
+const config = {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [
+      {
+        backgroundColor: colors.red,
+        borderColor: colors.red,
+        fill: false,
+        label: 'Temperatura z OpenWeather API',
+        data: [],
+      },
+      {
+        backgroundColor: colors.blue,
+        borderColor: colors.blue,
+        fill: false,
+        label: 'Temperatura z czujnika',
+        data: [],
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    title:{
+      display: true,
+      text: 'Wykres roznicy temperatury',
+    },
+    tooltips: {
+      mode: 'index',
+      intersect: false,
+    },
+    hover: {
+      mode: 'nearest',
+      intersect: true,
+    },
+    scales: {
+      xAxes: [{
+        display: true,
+        scaleLabel: {
+          display: true,
+          labelString: 'Godzina',
+        }
+      }],
+      yAxes: [{
+        display: true,
+        scaleLabel: {
+          display: true,
+          labelString: 'Temperatura',
+        },
+      }],
+    },
+  },
+}
+const lineChart = new Chart(ctx, config)
+
+const getLabels = (data) => data
+  .map(datum => datum.date)
+  .map(date => Date.parse(date))
+  .map(date => new Date(date))
+  .map(date => date.toLocaleTimeString())
+
+const getApiTemps = (data) => data.map(datum => datum.api)
+const getSensorTemps = (data) => data.map(datum => datum.sensor)
+
+const fetchAndRender = () => {
+  fetch('/data')
+    .then(response => response.json())
+    .then(data => {
+      config.data.labels = getLabels(data)
+      config.data.datasets[0].data = getApiTemps(data)
+      config.data.datasets[1].data = getSensorTemps(data)
+      console.log(config.data.datasets[1].data)
+      lineChart.update()
+    })
+}
+
+fetchAndRender()
+window.setInterval(fetchAndRender, FETCH_INTERVAL)
+    </script>
   </body>
 </html>

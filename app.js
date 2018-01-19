@@ -4,6 +4,8 @@ const { Client } = require('pg')
 
 const app = express()
 app.get('/data', (req, res) => {
+  console.log(new Date(), ': /data request')
+
   const client = new Client()
   client.connect()
 
@@ -31,4 +33,4 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '/index.html'));
 })
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(3000, () => console.log('Listening on port 3000!'))
