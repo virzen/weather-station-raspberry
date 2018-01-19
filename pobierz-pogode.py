@@ -8,8 +8,8 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-SLEEP_TIME = 1
-CITY_ID = '7531836' # Poznan
+SLEEP_TIME = int(environ.get('SLEEP_TIME'))
+CITY_ID = int(environ.get('CITY_ID'))
 FILE_NAME = environ.get('SENSOR_OUTPUT_FILENAME')
 OPENWEATHER_APPID = environ.get('OPENWEATHER_APPID')
 PGUSER = environ.get('PGUSER')
