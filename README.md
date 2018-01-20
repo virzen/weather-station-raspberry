@@ -49,18 +49,18 @@ sudo update-rc.d weather-server-express defaults
 ```
 
 ## Use Grafana (on Raspberry Pi Zero W)
-1. Install some packages and add the bintray pubkey to the apt keyring:
+### Install some packages and add the bintray pubkey to the apt keyring:
 ```
 sudo apt-get install apt-transport-https curl
 curl https://bintray.com/user/downloadSubjectPublicKey?username=bintray | sudo apt-key add -
 ```
 
-2. Update your apt source
+### Update your apt source
 ```
 echo "deb https://dl.bintray.com/fg2it/deb-rpi-1b jessie main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
 ```
 
-3. Install
+### Install
 ```
 sudo apt-get update
 sudo apt-get install grafana
