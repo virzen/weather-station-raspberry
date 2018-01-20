@@ -9,7 +9,7 @@
 ### END INIT INFO
 
 USER=pi
-SCRIPT_FILE=/home/pi/stacja/get-weather.py
+SCRIPT_FILE=/home/pi/stacja/script/get-weather.py
 SCRIPT_FILENAME=`basename $SCRIPT_FILE`
 LOG_FILE=/tmp/weather-script.log
 
