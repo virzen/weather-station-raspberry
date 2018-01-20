@@ -38,10 +38,11 @@ vim .env
 
 ## Run on boot
 ```
+# change neccessary variables in services/weather-{script|server-express} files
 # add services
 # usage: sudo service weather-{scripts|server-express} {start|stop|status}
-sudo ln -v <project-dir>/weather-script.sh /etc/init.d/weather-script
-sudo ln -v <project-dir>/weather-server-express.sh /etc/init.d/weather-server-express
+sudo ln -v <project-dir>/services/weather-script.sh /etc/init.d/weather-script
+sudo ln -v <project-dir>/services/weather-server-express.sh /etc/init.d/weather-server-express
 
 # run services at boot
 sudo update-rc.d weather-script defaults
