@@ -89,3 +89,8 @@ sudo systemctl start grafana-server
 ```
 
 Via https://askubuntu.com/a/859739.
+
+## SSH
+Generate key using [this tutorial](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/).
+
+Then, add the **public key** to the `~/.ssh/authenticated_keys` on the Raspberry Pi.
