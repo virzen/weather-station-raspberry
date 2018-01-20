@@ -8,13 +8,12 @@ intidb <file> -E utf8
 
 psql
 =# CREATE DATABASE stacja;
-=# CREATE USER pi WITH PASSWORD '<password>';
 <Ctrl-D>
 
 psql -d stacja < dump.sql
+=# CREATE USER pi WITH PASSWORD '<password>';
 =# GRANT USAGE, SELECT ON readings TO pi;
 =# GRANT USAGE, SELECT ON SEQUENCE readings_id_seq TO pi;
-<Ctrl-D>
 ```
 
 ### Express server
