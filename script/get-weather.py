@@ -6,7 +6,6 @@ import datetime
 from time import sleep
 from requests import get
 from dotenv import load_dotenv, find_dotenv
-from statistics import mean
 
 load_dotenv(find_dotenv())
 
@@ -33,19 +32,13 @@ def getTempFromApi():
   temp = output['main']['temp']
   return temp
 
-def getRunningAverage(cursor, sensorTemp):
-  # get running average to smooth out the readings
-  cursor.execute('SELECT sensor FROM readings LIMIT 10')
-  results = cursor.fetchmany(9)
-  readings = [x[0] for x in results]
-  readings.append(sensorTemp)
-  averageSensorTemp = mean(readings)
-
-  return averageSensorTemp
-
-
-def saveTempsToDb(cursor, sensorTemp, apiTemp):
+def saveTempsToDb(sensorTemp, apiTemp):
+  conn = psycopg2.connect(dbname=PGDATABASE, user=PGUSER, password=PGPASSWORD)
+  cursor = conn.cursor()
   cursor.execute('INSERT INTO readings (sensor,api) VALUES (%s,%s)', [sensorTemp, apiTemp])
+  conn.commit()
+  cursor.close()
+  conn.close()
 
 def log(sensorTemp, apiTemp):
   now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -56,15 +49,7 @@ while True:
   apiTemp = getTempFromApi()
   sensorTemp = getTempFromFile()
 
-  conn = psycopg2.connect(dbname=PGDATABASE, user=PGUSER, password=PGPASSWORD)
-  cursor = conn.cursor()
-
-  averageSensorTemp = getRunningAverage(cursor, sensorTemp);
-  saveTempsToDb(cursor, averageSensorTemp, apiTemp)
-  log(averageSensorTemp, apiTemp)
-
-  conn.commit()
-  cursor.close()
-  conn.close()
+  saveTempsToDb(sensorTemp, apiTemp)
+  log(sensorTemp, apiTemp)
 
   sleep(SLEEP_TIME)
