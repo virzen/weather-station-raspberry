@@ -3,7 +3,7 @@
   <head></head>
   <body>
     <h1>Stacja pogodowa</h1>
-    <canvas id="ctx" width=300 height=300 />
+    <canvas id="ctx" width="300" height="300" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
     <script>
@@ -35,7 +35,7 @@ const config = {
     ],
   },
   options: {
-    responsive: true,
+    maintainAspectRatio: false,
     title:{
       display: true,
       text: 'Wykres roznicy temperatury',
