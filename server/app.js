@@ -10,7 +10,7 @@ app.get('/data', function (req, res) {
   client.connect()
 
   client.query(
-    "SELECT date as date, sensor as sensor, api as api FROM readings WHERE date >= NOW() - '1 day'::INTERVAL",
+    "SELECT date as date, sensor as sensor, api as api FROM readings WHERE date >= NOW() - '12 hours'::INTERVAL",
     function (err, queryRes) {
       if (err) {
         console.log(err)
