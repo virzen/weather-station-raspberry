@@ -12,13 +12,24 @@ USER=pi
 DIR=/home/pi/stacja
 LOG_FILE=/tmp/weather-server-express.log
 
+start() {
+  (cd $DIR && sudo -u $USER npm start >$LOG_FILE 2>&1 &)
+}
+
+stop() {
+  pkill -u $USER -f node
+}
+
 case "$1" in
   start)
-    (cd $DIR && sudo -u $USER npm start >$LOG_FILE 2>&1 &)
+    start
     ;;
   stop)
-    pkill -u $USER -f node
+    stop
     ;;
+  restart)
+    stop
+    start
   *)
     echo "Usage: service weather-server-express {start|stop}"
     ;;
